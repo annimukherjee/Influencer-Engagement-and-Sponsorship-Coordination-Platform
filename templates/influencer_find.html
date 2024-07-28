@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Find Campaigns</h2>
+
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'influencer_dashboard' %}active{% endif %}"
+            href="{{ url_for('influencer_dashboard') }}">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'influencer_find' %}active{% endif %}"
+            href="{{ url_for('influencer_find') }}">Find</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'influencer_stats' %}active{% endif %}"
+            href="{{ url_for('influencer_stats') }}">Stats</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+    </li>
+</ul>
+
+<form action="{{ url_for('influencer_find') }}" method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search campaigns..."
+            value="{{ search_query }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+{% for campaign in campaigns %}
+<div class="card mb-2">
+    <div class="card-body">
+        <h5 class="card-title">{{ campaign.name }}</h5>
+        <p class="card-text">{{ campaign.description }}</p>
+        <p class="card-text"><strong>Sponsor:</strong> {{ campaign.sponsor.name }}</p>
+        <p class="card-text"><strong>Budget:</strong> ${{ "%.2f"|format(campaign.budget) }}</p>
+        <a href="{{ url_for('view_campaign', id=campaign.id) }}" class="btn btn-primary btn-sm">View</a>
+        <form action="{{ url_for('request_campaign', id=campaign.id) }}" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-success btn-sm">Request</button>
+        </form>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

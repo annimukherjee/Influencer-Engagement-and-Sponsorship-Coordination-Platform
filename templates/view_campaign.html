@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Campaign Details</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ campaign.name }}</h5>
+            <p class="card-text"><strong>Description:</strong> {{ campaign.description }}</p>
+            <p class="card-text"><strong>Sponsor:</strong> {{ campaign.sponsor.name }}</p>
+            <p class="card-text"><strong>Start Date:</strong> {{ campaign.start_date }}</p>
+            <p class="card-text"><strong>End Date:</strong> {{ campaign.end_date }}</p>
+            <p class="card-text"><strong>Budget:</strong> ${{ "%.2f"|format(campaign.budget) }}</p>
+            <p class="card-text"><strong>Visibility:</strong> {{ campaign.visibility }}</p>
+            <p class="card-text"><strong>Goals:</strong> {{ campaign.goals }}</p>
+            <p class="card-text"><strong>Flagged:</strong> {{ "Yes" if campaign.sponsor.user.is_flagged else "No" }}</p>
+        </div>
+    </div>
+
+    <h2 class="mt-4 mb-3">Ad Requests</h2>
+    {% for ad_request in campaign.ad_requests %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <h5 class="card-title">Ad Request for {{ ad_request.influencer.name }}</h5>
+            <p class="card-text"><strong>Status:</strong> {{ ad_request.status }}</p>
+            <p class="card-text"><strong>Payment Amount:</strong> ${{ "%.2f"|format(ad_request.payment_amount) }}</p>
+            <a href="{{ url_for('view_ad_request', id=ad_request.id) }}" class="btn btn-primary btn-sm">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+
+    <a href="{{ url_for('admin_find') }}" class="btn btn-secondary mt-3">Back to Find</a>
+</div>
+{% endblock %}

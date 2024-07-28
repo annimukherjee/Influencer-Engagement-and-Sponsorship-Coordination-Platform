@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    
+    <h1 class="mb-4">Admin's Dashboard</h1>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link active" href="#info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin_find') }}">Find</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin_stats') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+    </ul>
+
+    <h2 class="mb-3">Welcome Admin</h2>
+
+    <h3 class="mb-3">Ongoing Campaigns:</h3>
+
+    {% for campaign in ongoing_campaigns %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>{{ campaign.name }} | Progress {{ campaign.progress }}%</div>
+                <a href="{{ url_for('view_campaign', campaign_id=campaign.id) }}"
+                    class="btn btn-primary btn-sm">View</a>
+            </div>
+            <div class="progress mt-2">
+                <div class="progress-bar" role="progressbar" style="width: {{ campaign.progress }}%"
+                    aria-valuenow="{{ campaign.progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    <h3 class="mt-4 mb-3">Flagged Users/Campaigns</h3>
+    {% for user in flagged_users %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>User: {{ user.username }}</div>
+                <div>
+                    <a href="{{ url_for('view_user', user_id=user.id) }}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{{ url_for('remove_flag', user_id=user.id) }}" class="btn btn-danger btn-sm">Remove
+                        Flag</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+
+    {% for campaign in flagged_campaigns %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>Campaign: {{ campaign.name }} | Sponsor: {{ campaign.sponsor.name }}</div>
+                <div>
+                    <a href="{{ url_for('view_campaign', campaign_id=campaign.id) }}"
+                        class="btn btn-primary btn-sm">View</a>
+                    <a href="{{ url_for('remove_flag', campaign_id=campaign.id) }}" class="btn btn-danger btn-sm">Remove
+                        Flag</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+</div>
+{% endblock %}
