@@ -1,4 +1,9 @@
-# iitm-morden-application-dev-influencer-sponsor-platform
+# Influencer Engagement and Sponsorship Cooridination Platform---
+
+YouTube Demo Link:
+
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/LwQO7TaMMa0/0.jpg)](http://www.youtube.com/watch?v=LwQO7TaMMa0)
+
 
 <a href="iitm-mad-one-iensco/iensco-web-app/MAD_1_report_final_AniruddhaMukherjee_23f1003186.pdf" class="image fit"><img src="iitm-mad-one-iensco/github-readme/Paper-Teaser.png" alt=""></a>
 
