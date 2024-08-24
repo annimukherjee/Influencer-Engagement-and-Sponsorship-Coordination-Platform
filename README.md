@@ -25,24 +25,31 @@ It connects Sponsors and Influencers so that sponsors can get their product/serv
     - Admin can view all the flagged items and their details.
     - Admin can view the statistics of the platform.
     - Admin can login to the platform.
-  - **Influencer Dashboard**
+ 
+- **Influencer Dashboard**
     - Influencer can view all the campaigns and their details.
     - Influencer can view all the ad requests and their details.
     - Influencer can view the statistics of the platform.
     - Influencer can login to the platform.
     - Influencer can register to the platform.
-  - **Sponsor Dashboard**
+ 
+      
+- **Sponsor Dashboard**
     - Sponsor can view all the campaigns and their details.
     - Sponsor can view all the ad requests and their details.
     - Sponsor can view the statistics of the platform.
     - Sponsor can login to the platform.
     - Sponsor can register to the platform.
-  - **Campaigns**
+
+    
+- **Campaigns**
     - Sponsor can create a campaign.
     - Influencer can view all the campaigns.
     - Influencer can apply for a campaign.
     - Admin can view all the campaigns.
-  - **Ad Requests**
+ 
+      
+- **Ad Requests**
     - Sponsor can create an ad request.
     - Influencer can view all the ad requests.
     - Influencer can apply for an ad request.
