@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}influ/stats{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1>Influencer's Dashboard - Stats</h1>
+    <h5 class="m-0 mb-5 p-0">{{ influencer.name }} (@{{ influencer.user.username }})</h5>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_dashboard' %}active{% endif %}"
+                href="{{ url_for('influencer_dashboard') }}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_find' %}active{% endif %}"
+                href="{{ url_for('influencer_find') }}">Find</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_stats' %}active{% endif %}"
+                href="{{ url_for('influencer_stats') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+        </li>
+    </ul>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Campaigns</h5>
+                    <p class="card-text display-4">{{ total_campaigns }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Ads</h5>
+                    <p class="card-text display-4">{{ total_ads }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Earnings</h5>
+                    <p class="card-text display-4">${{ "%.2f"|format(total_earnings) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Earnings Across Ad Requests</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ad Name</th>
+                        <th>Earnings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ad in ad_request_earnings %}
+                    <tr>
+                        <td>{{ ad.ad_name }}</td>
+                        <td>${{ "%.2f"|format(ad.payment_amount) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

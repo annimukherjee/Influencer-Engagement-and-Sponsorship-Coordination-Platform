@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}sponsor/edit_ad_req{% endblock %}
+
+
+{% block content %}
+
+<nav class="nav mb-3">
+    <a class="nav-link {% if request.endpoint == 'sponsor_dashboard' %}active{% endif %}"
+        href="{{ url_for('sponsor_dashboard') }}">Profile</a>
+    <a class="nav-link {% if request.endpoint == 'sponsor_campaigns' %}active{% endif %}"
+        href="{{ url_for('sponsor_campaigns') }}">Campaigns</a>
+    <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}"
+        href="{{ url_for('sponsor_find') }}">Find</a>
+    <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}"
+        href="{{ url_for('sponsor_stats') }}">Stats</a>
+    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+</nav>
+
+<h1 class="mb-4">Edit Ad Request for {{ ad_request.campaign.name }}</h1>
+
+<form method="POST">
+    <div class="mb-3 col-6">
+        <label for="influencer" class="form-label">Select Influencer</label>
+        <select class="form-select" id="influencer" name="influencer_id" required>
+            {% for influencer in influencers %}
+            <option value="{{ influencer.id }}" {% if influencer.id==ad_request.influencer_id %}selected{% endif %}>
+                {{ influencer.name }}, reach: {{ influencer.reach }}, platform: {{ influencer.category }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3 col-6">
+        <label for="ad-name" class="form-label">Name of Ad</label>
+        <input type="text" class="form-control" id="ad-name" name="ad-name" value="{{ ad_request.ad_name }}" required>
+    </div>
+
+    <div class="mb-3 col-6">
+        <label for="messages" class="form-label">Ad Name / Messages</label>
+        <textarea class="form-control" id="messages" name="messages" rows="3"
+            required>{{ ad_request.messages }}</textarea>
+    </div>
+
+    <div class="mb-3 col-6">
+        <label for="terms" class="form-label">Terms</label>
+        <textarea class="form-control" id="terms" name="terms" rows="3"
+            required>{{ ad_request.requirements }}</textarea>
+    </div>
+
+    <div class="mb-3 col-6">
+        <label for="payment" class="form-label">Payment Amount</label>
+        <input type="number" class="form-control" id="payment" name="payment" value="{{ ad_request.payment_amount }}"
+            step="0.01" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Ad Request</button>
+    <a href="{{ url_for('campaign_details', campaign_id=ad_request.campaign_id) }}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

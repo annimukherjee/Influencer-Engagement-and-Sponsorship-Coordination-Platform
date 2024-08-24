@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}influ/dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1>Influencer's Dashboard</h1>
+    <h5 class="m-0 mb-5 p-0">{{ influencer.name }} (@{{ influencer.user.username }})</h5>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_dashboard' %}active{% endif %}"
+                href="{{ url_for('influencer_dashboard') }}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_find' %}active{% endif %}"
+                href="{{ url_for('influencer_find') }}">Find</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_stats' %}active{% endif %}"
+                href="{{ url_for('influencer_stats') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+        </li>
+    </ul>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ influencer.name }}</h5>
+                    <p class="card-text">Earnings: ${{ influencer.earning }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <h2>Active Ads:</h2>
+            {% if active_campaigns %}
+            {% for campaignnn in active_campaigns %}
+            <div class="card mb-2">
+                <div class="card-body">
+
+                    <h5 class="card-title">{{ campaignnn.ad_name }} | {{ campaignnn.campaign.sponsor.name }}</h5>
+                    <p>Campaign: {{ campaignnn.campaign.name }} </p>
+
+                    <a href="{{ url_for('view_ad_request', id=campaignnn.id) }}"
+                        class="btn btn-primary btn-sm mt-2">View</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p><span class="badge badge-pill bg-dark">No Active Campaigns</span></p>
+            {% endif %}
+        </div>
+
+        <div class="col-5">
+            <h2>New Requests:</h2>
+            {% if new_requests %}
+            {% for request in new_requests %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ request.ad_name }} | {{ request.campaign.sponsor.name }}</h5>
+                    <p>Campaign: {{ request.campaign.name }} </p>
+
+                    <a href="{{ url_for('view_ad_request', id=request.id) }}" class="btn btn-primary btn-sm">View</a>
+
+                    <form action="{{ url_for('update_ad_request', id=request.id) }}" method="POST"
+                        style="display: inline;">
+                        <input type="hidden" name="action" value="accept">
+                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                    </form>
+
+                    <form action="{{ url_for('update_ad_request', id=request.id) }}" method="POST"
+                        style="display: inline;">
+                        <input type="hidden" name="action" value="reject">
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p><span class="badge badge-pill bg-dark">No new requests.</span></p>
+            {% endif %}
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}

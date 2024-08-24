@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}influ/find{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1>Influencer's Dashboard - Find</h1>
+    <h5 class="m-0 mb-5 p-0">{{ influencer.name }} (@{{ influencer.user.username }})</h5>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_dashboard' %}active{% endif %}"
+                href="{{ url_for('influencer_dashboard') }}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_find' %}active{% endif %}"
+                href="{{ url_for('influencer_find') }}">Find</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'influencer_stats' %}active{% endif %}"
+                href="{{ url_for('influencer_stats') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+        </li>
+    </ul>
+
+    <form action="{{ url_for('influencer_find') }}" method="get" class="mb-4">
+        <div class="input-group mb-2">
+            <input type="text" name="search" class="form-control" placeholder="Search campaigns..."
+                value="{{ search_query }}">
+        </div>
+        <div class="input-group mb-2">
+            <select name="niche" class="form-control">
+                <option value="">Select Niche</option>
+                {% for niche in niches %}
+                <option value="{{ niche }}" {% if niche==niche_query %}selected{% endif %}>{{ niche }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% for campaign in campaigns %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <h5 class="card-title">
+                {{ campaign.name }}
+            </h5>
+            <p class="card-text">{{ campaign.description }}</p>
+            <div>
+                {% if campaign.has_open_request %}
+                <span class="badge bg-success">Open Request</span>
+                {% endif %}
+                <p class="p-0 m-0"><strong>Sponsor:</strong> {{ campaign.sponsor.name }}</p>
+                <p class="m-0"><strong>Budget:</strong> ${{ "%.2f"|format(campaign.budget) }}</p>
+                <p class="mb-4 mt-0"><strong>Niche:</strong> {{ campaign.niche }}</p>
+            </div>
+            <a href="{{ url_for('view_campaign', id=campaign.id) }}" class="btn btn-primary btn-sm">Know More!</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

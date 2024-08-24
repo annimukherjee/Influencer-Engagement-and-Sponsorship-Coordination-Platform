@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}sponsor/dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Sponsor Dashboard</h1>
+    <h5 class="m-0 mb-5 p-0">{{ sponsor.name }} (@{{ sponsor.user.username }})</h5>
+
+    <!-- navbar -->
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_dashboard' %}active{% endif %}"
+                href="{{ url_for('sponsor_dashboard') }}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_campaigns' %}active{% endif %}"
+                href="{{ url_for('sponsor_campaigns') }}">Campaigns</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}"
+                href="{{ url_for('sponsor_find') }}">Find</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}"
+                href="{{ url_for('sponsor_stats') }}">Stats</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+        </li>
+    </ul>
+
+    <!-- navbar ends -->
+
+    
+    <div class="row">
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ sponsor.name }}</h5>
+                    <p class="card-text">Budget: ${{ sponsor.budget }}</p>
+                    <p class="card-text">Budget Left: ${{ sponsor.budget_left }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <h2>Active Campaigns</h2>
+
+            {% if active_campaigns %}
+            {% for campaign in active_campaigns %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ campaign.name }}</h5>
+                    <p class="card-text mb-1">Budget: ${{ "%.2f"|format(campaign.budget) }}</p>
+                    <p class="card-text mb-0"><strong>Start Date:</strong> {{ campaign.start_date.strftime('%Y-%m-%d')
+                        }}
+                    <p class="card-text"><strong>End Date:</strong> {{ campaign.end_date.strftime('%Y-%m-%d') }}</p>
+                    </p>
+                    <a href="{{ url_for('campaign_details', campaign_id=campaign.id) }}"
+                        class="btn btn-primary btn-sm">View
+                        Details</a>
+                </div>
+            </div>
+
+            {% endfor %}
+            {% else %}
+            <p><span class="badge badge-pill bg-dark">No campaign.</span></p>
+            {% endif %}
+        </div>
+
+        <div class="col-4">
+            <h2>Influencer Requests</h2>
+
+            {% if influencer_requests %}
+            {% for influ_ad_req in influencer_requests %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ influ_ad_req.campaign.name }} - {{ influ_ad_req.influencer.name }}</h5>
+                    <p class="card-text mb-1">
+                        <strong>Status:</strong> <span class="badge bg-dark">{{ influ_ad_req.status }}</span>
+                    </p>
+                    <p class="card-text mb-0">
+                        <strong>Ad_Name:</strong> {{ influ_ad_req.ad_name }}
+                    </p>
+                    <p class="card-text mb-3">
+                        <strong>Pay Offered:</strong> {{ influ_ad_req.payment_amount }}
+                    </p>
+                    <form action="{{ url_for('process_request', ad_request_id=influ_ad_req.id) }}" method="POST"
+                        style="display: inline;">
+                        <button type="submit" name="action" value="accept"
+                            class="btn btn-success btn-sm">Accept</button>
+                        <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p><span class="badge badge-pill bg-dark">No influencer requests.</span></p>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+</div>
+{% endblock %}

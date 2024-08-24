@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}sponsor/edit_campaign{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Edit Campaign</h1>
+    <form action="{{ url_for('edit_campaign', campaign_id=campaign.id) }}" method="post">
+        <div class="mb-3 col-6">
+            <label for="campaign_name" class="form-label">Campaign title:</label>
+            <input type="text" class="form-control" id="campaign_name" name="campaign_name" value="{{ campaign.name }}" required>
+        </div>
+        <div class="mb-3 col-6">
+            <label for="campaign_desc" class="form-label">Description</label>
+            <textarea class="form-control" id="campaign_desc" name="campaign_desc"
+                required>{{ campaign.description }}</textarea>
+        </div>
+
+
+
+        <div class="d-flex justify-content-between col-4">
+            <div class="mb-3">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date"
+                    value="{{ campaign.start_date }}">
+            </div>
+            <div class="mb-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ campaign.end_date }}">
+            </div>
+        </div>
+
+
+        <div class="mb-3 col-6">
+            <label for="campaign_budget" class="form-label">Budget</label>
+            <input type="number" step="1" class="form-control" id="campaign_budget" name="campaign_budget"
+                value="{{ campaign.budget }}" required>
+        </div>
+        <div class="mb-3 col-6">
+            <label for="visb" class="form-label">Campaign visibility</label>
+            <div>
+                <input type="radio" id="visib_public" name="visb" value="public" {% if
+                    campaign.visibility=='public' %}checked{% endif %} required>
+                <label for="visib_public">Public</label>
+            </div>
+            <div>
+                <input type="radio" id="visib_private" name="visb" value="private" {% if
+                    campaign.visibility=='private' %}checked{% endif %} required>
+                <label for="visib_private">Private</label>
+            </div>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="goals" class="form-label">Goals</label>
+            <input type="text" class="form-control" id="goals" name="goals" value="{{ campaign.goals }}">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="niche" class="form-label">Campaign Niche</label>
+            <input type="text" class="form-control" id="niche" name="niche" value="{{ campaign.niche }}">
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Update Campaign</button>
+            <a href="{{ url_for('sponsor_campaigns') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+
+
+    <div class="mt-3">
+
+    </div>
+
+
+</div>
+{% endblock %}

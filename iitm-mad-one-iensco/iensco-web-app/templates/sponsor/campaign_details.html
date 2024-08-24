@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}sponsor/campaign_details{% endblock %}
+
+
+{% block content %}
+<div>
+    <h1 class="mb-1">{{ campaign.name }}</h1>
+    <h3 class="mb-4">{{ campaign.sponsor.name }}</h3>
+</div>
+
+
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_dashboard' %}active{% endif %}"
+            href="{{ url_for('sponsor_dashboard') }}">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_campaigns' %}active{% endif %}"
+            href="{{ url_for('sponsor_campaigns') }}">Campaigns</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}"
+            href="{{ url_for('sponsor_find') }}">Find</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}"
+            href="{{ url_for('sponsor_stats') }}">Stats</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+    </li>
+</ul>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Campaign Details</h5>
+        <p class="card-text"><strong>Description:</strong> {{ campaign.description }}</p>
+        <p class="card-text mb-0"><strong>Budget:</strong> ${{ "%.2f"|format(campaign.budget) }}</p>
+        <p class="card-text mb-0"><strong>Spent:</strong> ${{ "%.2f"|format(total_spent) }}</p>
+        <p class="card-text mb-0"><i>Left:</i> ${{ "%.2f"|format(campaign.budget - total_spent) }}</p>
+        <div class="d-flex justify-content-start">
+            <div class="p-3 ps-0">
+                <p class="card-text"><strong>Start Date:</strong> {{ campaign.start_date.strftime('%Y-%m-%d') }}
+                </p>
+            </div>
+            <div class="p-3">
+                <p class="card-text"><strong>End Date:</strong> {{ campaign.end_date.strftime('%Y-%m-%d') }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Ad Requests</h2>
+<div>
+    <a href="{{ url_for('add_ad_request', campaign_id=campaign.id) }}" class="btn btn-primary mb-3">
+        <i class="fa fa-plus"></i> Add Ad Request
+    </a>
+    <a href="{{ url_for('sponsor_campaigns') }}" class="btn btn-secondary mb-3">Back</a>
+</div>
+
+<div class="row">
+    {% for ad_request in ad_requests %}
+    <div class="col-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ ad_request.ad_name }}</h5>
+                <p class="mb-0">{{ ad_request.messages }}</p>
+                <p class="mb-0"><strong>Payment:</strong> ${{ "%.2f"|format(ad_request.payment_amount) }}</p>
+
+                <p>
+                    <strong>Status:</strong>
+                    {% if ad_request.status == 'Accepted' %}
+                    <span class="badge bg-success">{{ ad_request.status }}</span>
+                    {% elif ad_request.status == 'Rejected' %}
+                    <span class="badge bg-danger">{{ ad_request.status }}</span>
+                    {% else %}
+                    <span class="badge bg-dark">{{ ad_request.status }}</span>
+                    {% endif %}
+                </p>
+                {% if ad_request.influencer %}
+                <p><strong>Influencer:</strong> {{ ad_request.influencer.name }}</p>
+                {% endif %}
+                <a href="{{ url_for('edit_ad_request', ad_request_id=ad_request.id) }}"
+                    class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ url_for('delete_ad_request', ad_request_id=ad_request.id) }}" method="POST"
+                    style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}sponsor/campaigns{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1>Sponsor Campaigns</h1>
+    <h5 class="m-0 mb-5 p-0">{{ sponsor.name }} (@{{ sponsor.user.username }})</h5>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_dashboard' %}active{% endif %}"
+                href="{{ url_for('sponsor_dashboard') }}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_campaigns' %}active{% endif %}"
+                href="{{ url_for('sponsor_campaigns') }}">Campaigns</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}"
+                href="{{ url_for('sponsor_find') }}">Find</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}"
+                href="{{ url_for('sponsor_stats') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+        </li>
+    </ul>
+
+    <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+        <a href="{{ url_for('add_campaign') }}" class="btn btn-primary mb-3">
+            <i class="fa fa-plus"></i> Add Campaign
+        </a>
+
+    </div>
+
+
+    <div class="row">
+        {% if campaigns %}
+        {% for campaign in campaigns %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ campaign.name }}</h5>
+                    <h6 class="card-subtitle mb-4 text-muted">Description: {{ campaign.description[:100] }}...</h6>
+                    <p class="card-text mb-0"><strong>Budget:</strong> ${{ "%.2f"|format(campaign.budget) }}</p>
+                    <p class="card-text mb-0"><strong>Niche:</strong> {{ campaign.niche }}</p>
+
+                    {% if campaign.visibility == 'public' %}
+                    <p class="card-text mb-3"><strong>Visibility:</strong> <span
+                        class="badge rounded-pill text-bg-success">{{ campaign.visibility }}</span></p>
+                    {% else %}
+                    <p class="card-text mb-3"><strong>Visibility:</strong> <span
+                            class="badge rounded-pill text-bg-dark">{{ campaign.visibility }}</span></p>
+                    {% endif %}
+
+                    <a href="{{ url_for('campaign_details', campaign_id=campaign.id) }}"
+                        class="btn btn-primary btn-sm">View
+                        Details</a>
+                    <a href="{{ url_for('edit_campaign', campaign_id=campaign.id) }}"
+                        class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ url_for('delete_campaign', campaign_id=campaign.id) }}" method="post"
+                        class="d-inline-block">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p><span class="badge badge-pill bg-dark">No campaign.</span></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

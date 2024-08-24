@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}sponsor/add_ad_req{% endblock %}
+
+
+{% block content %}
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_dashboard' %}active{% endif %}"
+            href="{{ url_for('sponsor_dashboard') }}">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_campaigns' %}active{% endif %}"
+            href="{{ url_for('sponsor_campaigns') }}">Campaigns</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}"
+            href="{{ url_for('sponsor_find') }}">Find</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}"
+            href="{{ url_for('sponsor_stats') }}">Stats</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+    </li>
+</ul>
+
+<h1 class="mb-4">Add Ad Request for {{ campaign.name }}</h1>
+
+<form method="POST" action="{{ url_for('add_ad_request', campaign_id=campaign.id) }}">
+    <div class="mb-3 col-6">
+        <label for="influencer" class="form-label">Select Influencer</label>
+        <select class="form-control" id="influencer" name="influencer_id" required>
+            <option value="open">Open (Any Influencer)</option>
+            {% for influencer in influencers %}
+            <option value="{{ influencer.id }}">{{ influencer.name }} | reach: {{ influencer.reach }} | platform: {{ influencer.category }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="ad-name" class="form-label">Name of Ad</label>
+        <input type="text" class="form-control" id="ad-name" name="ad-name" required>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="messages" class="form-label">Ad Name / Messages</label>
+        <input type="text" class="form-control" id="messages" name="messages" required>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="terms" class="form-label">Terms</label>
+        <textarea class="form-control" id="terms" name="terms" rows="3" required></textarea>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="payment" class="form-label">Payment Amount</label>
+        <input type="number" class="form-control" id="payment" name="payment" step="0.01" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Ad Request</button>
+    <a href="{{ url_for('campaign_details', campaign_id=campaign.id) }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

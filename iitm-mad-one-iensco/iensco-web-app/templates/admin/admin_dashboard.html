@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}admin/dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Admin's Dashboard</h1>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link active" href="#info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin_find') }}">Find</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('admin_stats') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+        </li>
+    </ul>
+
+    <h2 class="mb-3">Welcome Admin</h2>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+
+
+            <h3 class="mb-3">All Campaigns</h3>
+
+            {% if all_campaigns %}
+            {% for campaign in all_campaigns %}
+
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div>
+                        <strong>{{ campaign.name }}</strong>
+                        {% if campaign.visibility in 'private' %}
+                        <span class="badge bg-dark">Private</span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            {{ campaign.sponsor.name }} | Progress {{ campaign.progress }}%
+                        </div>
+
+                        <div>
+                            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#campaign{{ campaign.id }}Ads" aria-expanded="false"
+                                aria-controls="campaign{{ campaign.id }}Ads">
+                                View Ads
+                            </button>
+
+                            {% if campaign.is_flagged %}
+                            <span class="badge bg-danger">Flagged</span>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <div class="progress mt-2" style="height: 6px;">
+                        <div class="progress-bar" role="progressbar" style="width: {{ campaign.progress }}%"
+                            aria-valuenow="{{ campaign.progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                    <div class="collapse mt-2" id="campaign{{ campaign.id }}Ads">
+                        <div class="card card-body">
+                            <p class="mb-2">Ads for {{ campaign.name }}</p>
+                            <ul>
+                                {% for ad_request in campaign.ad_requests %}
+                                <li>{{ ad_request.influencer.name }} - {{ ad_request.status }} - {{
+                                    ad_request.ad_name[:] }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p><span class="badge badge-pill bg-dark">No campaign.</span></p>
+            {% endif %}
+        </div>
+
+
+        <div class="col-md-6">
+
+
+            <h3 class="mb-3">All Sponsors</h3>
+
+            {% if all_sponsors %}
+            {% for sponsor in all_sponsors %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            {{ sponsor.name }} | Industry: {{ sponsor.industry }}
+                        </div>
+
+
+                        <div>
+                            <a href="{{ url_for('view_sponsor', id=sponsor.id) }}"
+                                class="btn btn-primary btn-sm">View</a>
+                            {% if sponsor.user.is_flagged %}
+                            <span class="badge bg-danger">Flagged</span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p><span class="badge badge-pill bg-dark">No sponsors.</span></p>
+            {% endif %}
+
+
+
+            <h3 class="mb-3 mt-4">All Influencers</h3>
+
+            {% if all_influencers %}
+            {% for influencer in all_influencers %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            {{ influencer.name }} | Category: {{ influencer.category }}
+                        </div>
+
+                        <div>
+                            <a href="{{ url_for('view_influencer', id=influencer.id) }}"
+                                class="btn btn-primary btn-sm">View</a>
+                            {% if influencer.user.is_flagged %}
+                            <span class="badge bg-danger">Flagged</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% else %}
+            <p><span class="badge badge-pill bg-dark">No influencers.</span></p>
+            {% endif %}
+
+        </div>
+
+    </div> 
+
+    <hr>
+
+    <div class="mt-2 mb-5">
+        <h3 class="mb-3">Flagged Items</h3>
+        <a href="{{ url_for('view_flagged_items') }}" class="btn btn-warning">
+            View Flagged Items ({{ flagged_users_count + flagged_campaigns_count }})
+        </a>
+    </div>
+</div>
+
+{% endblock %}

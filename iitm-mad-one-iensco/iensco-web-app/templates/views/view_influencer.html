@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}view/influ_profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Influencer Details</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title mb-3">{{ influencer.name }}</h5>
+            <p class="card-text mb-0"><strong>Category:</strong> {{ influencer.category }}</p>
+            <p class="card-text mb-0"><strong>Niche:</strong> {{ influencer.niche }}</p>
+            <p class="card-text mb-0"><strong>Reach:</strong> {{ influencer.reach }} followers</p>
+            <p class="card-text mb-0"><strong>Email:</strong> {{ influencer.user.email }}</p>
+            {% if influencer.user.is_flagged %}
+            <p class="card-text mb-0"><strong>Flagged:</strong> <span class="badge rounded-pill text-bg-danger">Yes</span></p>
+            {% else %}
+            <p class="card-text mb-0"><strong>Flagged:</strong> <span class="badge rounded-pill text-bg-dark">No</span></p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if role == 'admin' %}
+    <h2 class="mt-4 mb-3">Ad Requests</h2>
+
+    {% if influencer.ad_requests | length > 0 %}
+    {% for ad_request in influencer.ad_requests %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <h5 class="card-title">Ad Request for {{ ad_request.campaign.name }}</h5>
+            <p class="card-text">
+                <strong>Status:</strong>
+                {% if ad_request.status == 'Accepted' %}
+                <span class="badge bg-success">{{ ad_request.status }}</span>
+                {% elif ad_request.status == 'Rejected' %}
+                <span class="badge bg-danger">{{ ad_request.status }}</span>
+                {% else %}
+                <span class="badge bg-dark">{{ ad_request.status }}</span>
+                {% endif %}
+            </p>
+
+            <a href="{{ url_for('view_ad_request', id=ad_request.id) }}" class="btn btn-primary btn-sm">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No ads yet</p>
+    {% endif %}
+
+
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+    <a href="{{ url_for('admin_find') }}" class="btn btn-secondary mt-3">Back to Find</a>
+
+    {% elif role == 'sponsor' %}
+    <a href="{{ url_for('sponsor_find') }}" class="btn btn-secondary mt-3">Back to Find Influencers</a>
+    {% endif %}
+</div>
+{% endblock %}

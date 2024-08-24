@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}sponsor/find{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1>Sponsor Find Influencers</h1>
+    <h5 class="m-0 mb-5 p-0">{{ sponsor.name }} (@{{ sponsor.user.username }})</h5>
+
+    <nav class="nav nav-tabs mb-4">
+        <a class="nav-link {% if request.endpoint == 'sponsor_dashboard' %}active{% endif %}"
+            href="{{ url_for('sponsor_dashboard') }}">Profile</a>
+        <a class="nav-link {% if request.endpoint == 'sponsor_campaigns' %}active{% endif %}"
+            href="{{ url_for('sponsor_campaigns') }}">Campaigns</a>
+        <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}"
+            href="{{ url_for('sponsor_find') }}">Find</a>
+        <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}"
+            href="{{ url_for('sponsor_stats') }}">Stats</a>
+        <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+    </nav>
+
+
+    <form method="GET" action="{{ url_for('sponsor_find') }}" class="mb-4">
+
+        <div class="row g-3">
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="search" placeholder="Search" value="{{ search_query }}">
+            </div>
+
+            <div class="col-md-3">
+                <select class="form-select" name="niche">
+                    <option value="">All Niches</option>
+                    {% for niche in niches %}
+                    <option value="{{ niche }}" {% if niche==selected_niche %}selected{% endif %}>{{ niche }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <input type="number" class="form-control" name="min_reach" placeholder="Min Reach"
+                    value="{{ min_reach }}">
+            </div>
+
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-50">Search</button>
+            </div>
+
+        </div>
+    </form>
+
+
+    {% if influencers %}
+    <div class="row">
+        <h3>Influencers</h3>
+        {% for influencer in influencers %}
+        <div class="col-3">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ influencer.name }}</h5>
+                    <p class="card-text">
+                        Category: {{ influencer.category }}<br>
+                        Niche: {{ influencer.niche }}<br>
+                        Reach: {{ influencer.reach }}
+                    </p>
+                    <a href="{{ url_for('view_influencer', id=influencer.id) }}" class="btn btn-primary btn-sm">View
+                        Profile</a>
+
+                </div>
+            </div>
+        </div>
+
+
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No influencers found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

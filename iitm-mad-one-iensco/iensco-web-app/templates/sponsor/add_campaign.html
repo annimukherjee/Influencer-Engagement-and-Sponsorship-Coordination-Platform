@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}sponsor/add_campaign{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Add Campaign</h1>
+<h2>Sponsor: {{ sponsor.name }}</h2>
+
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_profile' %}active{% endif %}"
+            href="{{ url_for('sponsor_dashboard') }}">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_campaigns' %}active{% endif %}"
+            href="{{ url_for('sponsor_campaigns') }}">Campaigns</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}"
+            href="{{ url_for('sponsor_find') }}">Find</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}"
+            href="{{ url_for('sponsor_stats') }}">Stats</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+    </li>
+</ul>
+
+<form method="POST" action="{{ url_for('add_campaign') }}">
+    <div class="mb-3 col-6">
+        <label for="campaign_name" class="form-label">Campaign title</label>
+        <input type="text" class="form-control" id="campaign_name" name="campaign_name" required>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="campaign_desc" class="form-label">Campaign description</label>
+        <textarea class="form-control" id="campaign_desc" name="campaign_desc" rows="3" required></textarea>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="visb" class="form-label">Campaign visibility</label>
+        <div>
+            <input type="radio" id="visib_public" name="visb" value="public" required>
+            <label for="visib_public">Public</label>
+        </div>
+        <div>
+            <input type="radio" id="visib_private" name="visb" value="private" required>
+            <label for="visib_private">Private</label>
+        </div>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="goals" class="form-label">Goals</label>
+        <input type="text" class="form-control" id="goals" name="goals" required>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="niche" class="form-label">Campaign Niche</label>
+        <input type="text" class="form-control" id="niche" name="niche" required>
+    </div>
+    <div class="d-flex justify-content-between col-4 mb-3">
+        <div>
+            <label for="start_date" class="form-label">Start Date</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" required>
+        </div>
+        <div>
+            <label for="end_date" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" required>
+        </div>
+    </div>
+    <div class="mb-3 col-6">
+        <label for="campaign_budget" class="form-label">Budget</label>
+        <input type="number" class="form-control" id="campaign_budget" name="campaign_budget" step="1" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Campaign</button>
+    <a href="{{ url_for('sponsor_campaigns') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+
+{% block title %}sponsor/stats{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="">Sponsor Statistics</h1>
+    <h5 class="m-0 mb-5 p-0">{{ sponsor.name }} (@{{ sponsor.user.username }})</h5>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_dashboard' %}active{% endif %}"
+                href="{{ url_for('sponsor_dashboard') }}">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_campaigns' %}active{% endif %}"
+                href="{{ url_for('sponsor_campaigns') }}">Campaigns</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}"
+                href="{{ url_for('sponsor_find') }}">Find</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}"
+                href="{{ url_for('sponsor_stats') }}">Stats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}" style="color: red;">Logout</a>
+        </li>
+    </ul>
+
+    <div class="row">
+        <div class="col-md-2 mb-2">
+            <div class="card mb-0">
+                <div class="card-body border border-3 border-success">
+                    <h5 class="card-title">Total Campaigns</h5>
+                    <p class="display-4">{{ total_campaigns }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 mb-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Ads</h5>
+                    <p class="display-4">{{ total_ads }}</p>
+                    <p class="card-text mb-0">Accepted: {{ ads_accepted }}</p>
+                    <p class="card-text mb-0">Pending: {{ ads_pending }}</p>
+                    <p class="card-text mb-0">Rejected: {{ ads_rejected }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 mb-0">
+            <div class="card border border-2 border-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Total Budget</h5>
+                    <p class="display-4">${{ "%.0f"|format(total_budget) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-0">
+            <div class="card border border-2 border-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Budget Spent</h5>
+                    <p class="display-4">${{ "%.0f"|format(total_budget_spent) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-2">
+        <div class="card-body border border-2">
+            <h5 class="card-title">Ad Requests Count by Influencer</h5>
+            <div style="width: 80%; height: 400px; margin: auto;">
+                <canvas id="adRequestsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mb-5">
+        <div class="card mt-4 col-4 border border-primary border-4">
+            <div class="card-body">
+                <h5 class="card-title text-center">Campaigns & Cost</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Campaign Name</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cmp in campaigns %}
+                        <tr>
+                            <td>{{ cmp.name }}</td>
+                            <td>${{ "%.2f"|format(cmp.budget) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('adRequestsChart').getContext('2d');
+            var labels = {{ ad_requests_count| map(attribute = 'name') | list | tojson
+        }};
+        var data = {{ ad_requests_count| map(attribute = 'count') | list | tojson }};
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Ad Requests Count',
+                    data: data,
+                    backgroundColor: 'rgba(45, 27, 99, 0.2)',
+                    borderColor: 'rgba(90, 45, 67, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+        });
+    </script>
+    {% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}admin/flagged{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container mt-4">
+    <h1 class="mb-4">Flagged Items</h1>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mb-3">Back to Dashboard</a>
+
+    <h2 class="mb-3">Flagged Sponsors</h2>
+    {% if flagged_sponsors %}
+    {% for sponsor in flagged_sponsors %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    {{ sponsor.name }} ({{ sponsor.user.email }})
+                </div>
+                <div>
+                    <a href="{{ url_for('view_sponsor', id=sponsor.id) }}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{{ url_for('remove_flag', type='user', id=sponsor.user.id) }}"
+                        class="btn btn-warning btn-sm">Remove Flag</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No flagged sponsors.</p>
+    {% endif %}
+
+    <h2 class="mb-3 mt-4">Flagged Influencers</h2>
+    {% if flagged_influencers %}
+    {% for influencer in flagged_influencers %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    {{ influencer.name }} ({{ influencer.user.email }})
+                </div>
+                <div>
+                    <a href="{{ url_for('view_influencer', id=influencer.id) }}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{{ url_for('remove_flag', type='user', id=influencer.user.id) }}"
+                        class="btn btn-warning btn-sm">Remove Flag</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No flagged influencers.</p>
+    {% endif %}
+
+    <h2 class="mb-3 mt-4">Flagged Campaigns</h2>
+    {% if flagged_campaigns %}
+    {% for campaign in flagged_campaigns %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    {{ campaign.name }} (Sponsor: {{ campaign.sponsor.name }})
+                </div>
+                <div>
+                    <a href="{{ url_for('view_campaign', id=campaign.id) }}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{{ url_for('remove_flag', type='campaign', id=campaign.id) }}"
+                        class="btn btn-warning btn-sm">Remove Flag</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No flagged campaigns.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
