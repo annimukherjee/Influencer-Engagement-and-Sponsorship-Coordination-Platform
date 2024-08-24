@@ -1,23 +1,64 @@
+
 # Influencer Engagement and Sponsorship Cooridination Platform
 
+This is the project I made for the Modern Application Development Project - 1. It is an Influencer Engagement and Sponsorship Coordination Platform. 
+
+It connects Sponsors and Influencers so that sponsors can get their product/service advertised and influencers can get monetary benefit.
+
+It taught me a lot.
+
+
+## Demo
+
 ### YouTube Demo Link:
-===
 
 [![YouTubeVideoImage](http://img.youtube.com/vi/LwQO7TaMMa0/0.jpg)](http://www.youtube.com/watch?v=LwQO7TaMMa0)
 
 
-This is the project I made for the Modern Application Development Project - 1. 
-It is an Influencer Engagement and Sponsorship Coordination Platform. 
-It connects Sponsors and Influencers so that sponsors can get their product/service advertised and influencers can get monetary benefit.
 
-### Project Report:
-===
+## Documentation
 
 <a href="iitm-mad-one-iensco/iensco-web-app/MAD_1_report_final_AniruddhaMukherjee_23f1003186.pdf" class="image fit"><img src="iitm-mad-one-iensco/github-readme/Paper-Teaser.png" alt="" width="800px"></a>
 
 
-### Features:
-===
+## Tech Stack
+
+**Client:** HTML, CSS, BootStrap, Jinja2
+
+**Server:** Flask
+
+
+
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/annimukherjee/Influencer-Engagement-and-Sponsorship-Cooridination-Platform
+```
+
+Go to the project directory
+
+```bash
+  cd Influencer-Engagement-and-Sponsorship-Cooridination-Platform/iitm-mad-one-iensco/iensco-web-app
+```
+
+Install dependencies
+
+```bash
+  pip install Flask Flask-SQLAlchemy
+```
+
+Start the app
+
+```bash
+  python app.py
+```
+
+## Features:
+
 - **Admin Dashboard**
     - Admin can view all the users and their details.
     - Admin can view all the campaigns and their details.
@@ -56,6 +97,31 @@ It connects Sponsors and Influencers so that sponsors can get their product/serv
     - Admin can view all the ad requests.
   
 
+
+
+## Deployment
+
+This project hasn't been deployed yet. But expect it to be soon!
+
+
+## Feedback
+
+If you have any feedback, please reach out to me at mukh.aniruddha@gmail.com
+
+
+## Support
+
+For support, email mukh.aniruddha@gmail.com.
+
+
+## Authors
+
+- [@annimukherjee](https://www.github.com/annimukherjee)
+
+
+---
+
+---
 
 ## FileTree
 ---
