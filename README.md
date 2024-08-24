@@ -1,4 +1,4 @@
-# Influencer Engagement and Sponsorship Cooridination Platform---
+# Influencer Engagement and Sponsorship Cooridination Platform
 
 ### YouTube Demo Link:
 ===
