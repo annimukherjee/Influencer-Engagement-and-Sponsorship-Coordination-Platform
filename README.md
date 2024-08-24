@@ -1,11 +1,57 @@
 # Influencer Engagement and Sponsorship Cooridination Platform---
 
-YouTube Demo Link:
+### YouTube Demo Link:
+===
 
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/LwQO7TaMMa0/0.jpg)](http://www.youtube.com/watch?v=LwQO7TaMMa0)
+[![YouTubeVideoImage](http://img.youtube.com/vi/LwQO7TaMMa0/0.jpg)](http://www.youtube.com/watch?v=LwQO7TaMMa0)
 
 
-<a href="iitm-mad-one-iensco/iensco-web-app/MAD_1_report_final_AniruddhaMukherjee_23f1003186.pdf" class="image fit"><img src="iitm-mad-one-iensco/github-readme/Paper-Teaser.png" alt=""></a>
+This is the project I made for the Modern Application Development Project - 1. 
+It is an Influencer Engagement and Sponsorship Coordination Platform. 
+It connects Sponsors and Influencers so that sponsors can get their product/service advertised and influencers can get monetary benefit.
+
+### Project Report:
+===
+
+<a href="iitm-mad-one-iensco/iensco-web-app/MAD_1_report_final_AniruddhaMukherjee_23f1003186.pdf" class="image fit"><img src="iitm-mad-one-iensco/github-readme/Paper-Teaser.png" alt="" width="800px"></a>
+
+
+### Features:
+===
+- **Admin Dashboard**
+    - Admin can view all the users and their details.
+    - Admin can view all the campaigns and their details.
+    - Admin can view all the ad requests and their details.
+    - Admin can view all the flagged items and their details.
+    - Admin can view the statistics of the platform.
+    - Admin can login to the platform.
+  - **Influencer Dashboard**
+    - Influencer can view all the campaigns and their details.
+    - Influencer can view all the ad requests and their details.
+    - Influencer can view the statistics of the platform.
+    - Influencer can login to the platform.
+    - Influencer can register to the platform.
+  - **Sponsor Dashboard**
+    - Sponsor can view all the campaigns and their details.
+    - Sponsor can view all the ad requests and their details.
+    - Sponsor can view the statistics of the platform.
+    - Sponsor can login to the platform.
+    - Sponsor can register to the platform.
+  - **Campaigns**
+    - Sponsor can create a campaign.
+    - Influencer can view all the campaigns.
+    - Influencer can apply for a campaign.
+    - Admin can view all the campaigns.
+  - **Ad Requests**
+    - Sponsor can create an ad request.
+    - Influencer can view all the ad requests.
+    - Influencer can apply for an ad request.
+    - Admin can view all the ad requests.
+  
+
+
+## FileTree
+---
 
 ```
 iitm-mad-one-iensco/
