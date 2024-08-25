@@ -1,5 +1,5 @@
 
-# Influencer Engagement and Sponsorship Cooridination Platform
+# Influencer Engagement and Sponsorship Coordination Platform
 
 This is the project I made for the Modern Application Development Project - 1. It is an Influencer Engagement and Sponsorship Coordination Platform. 
 
