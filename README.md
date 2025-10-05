@@ -10,7 +10,7 @@ It taught me a lot.
 
 ## Demo
 
-### YouTube Demo Link:
+### YouTube Demo Link (Clikable):
 
 [![YouTubeVideoImage](http://img.youtube.com/vi/LwQO7TaMMa0/0.jpg)](http://www.youtube.com/watch?v=LwQO7TaMMa0)
 
